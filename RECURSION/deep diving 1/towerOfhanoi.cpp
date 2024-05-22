@@ -5,7 +5,7 @@ using namespace std;
 int towerOfHanoi(int n, char src, char dest, char help)
 {
     if (n == 0) {
-        return;
+        return 0;
     }
     int ans = 0;
     ans += towerOfHanoi(n - 1, src, help, dest);
@@ -17,7 +17,7 @@ int towerOfHanoi(int n, char src, char dest, char help)
 
 int main()
 {
-    int N = 3;
+    int N = 2;
     towerOfHanoi(N, 'A', 'C', 'B');
     return 0;
 }

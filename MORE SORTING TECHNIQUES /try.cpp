@@ -1,100 +1,107 @@
 #include <iostream>
-#include <vector>
-#include <map>
-#include <algorithm>
 using namespace std;
 
-int main() {
-    int n, m, i, j, k, hit = 0;
+// int main(){
+//     int arr[] = {0, 0,0, 0, 1, 1, 1};
+//     int n = sizeof(arr) / sizeof(int);
+//     int s = 0;
+//     int ans = 0;
+//     int e = n - 1;
+//     while(s<=e){
+//         int mid = (s+e)/2;
+//         if(arr[mid]==1){
+//             ans= n-mid;
+//             e = mid - 1;
+//         }
+//         else if(arr[mid]==0){
+//             s= mid + 1;
+//         }
+//     }
+//     cout << ans << endl;
+// }
 
-    cout << "Enter number of frames\n";
-    cin >> n;
-    cout << "Enter number of processes\n";
-    cin >> m;
 
-    vector<int> p(m);
-    vector<int> hi(m);
-
-    cout << "Enter processes\n";
-    for (i = 0; i < m; i++) {
-        cin >> p[i];
-    }
-
-    vector<vector<int>> a(n);
-    for (i = 0; i < n; i++) {
-        a[i] = vector<int>(m, -1);
-    }
-
-    map<int, int> mp;
-
-    for (i = 0; i < m; i++) {
-        vector<pair<int,int>> c;
-        for (auto q: mp) {
-            c.push_back({q.second, q.first});
+void computeLPSArray(char* pat, int M, int* lps);
+ 
+// Prints occurrences of pat[] in txt[]
+void KMPSearch(char* pat, char* txt)
+{
+    int M = strlen(pat);
+    int N = strlen(txt);
+ 
+    // create lps[] that will hold the longest prefix suffix
+    // values for pattern
+    int lps[M];
+ 
+    // Preprocess the pattern (calculate lps[] array)
+    computeLPSArray(pat, M, lps);
+ 
+    int i = 0; // index for txt[]
+    int j = 0; // index for pat[]
+    while ((N - i) >= (M - j)) {
+        if (pat[j] == txt[i]) {
+            j++;
+            i++;
         }
-        sort(c.begin(), c.end());
-        bool hasrun = false;
-        for (j = 0; j < n; j++) {
-            if (a[j][i] == p[i]) {
-                hit++;
-                hi[i] = 1;
-                mp[p[i]] = 1;
-                hasrun = true;
-                break;
-            }
-            if (a[j][i] == -1) {
-                for (k = i; k < m; k++) {
-                    a[j][k] = p[i];
-                }
-                mp[p[i]]++;
-                hasrun = true;
-                break;
-            }
+ 
+        if (j == M) {
+            printf("Found pattern at index %d ", i - j);
+            j = lps[j - 1];
         }
-        if (j == n || hasrun == false) {
-            for (j = 0; j < n; j++) {
-                if (a[j][i] == c[c.size() - 1].second) {
-                    mp.erase(a[j][i]);
-                    for (k = i; k < m; k++) {
-                        a[j][k] = p[i];
-                    }
-                    mp[p[i]]++;
-                    break;
-                }
-            }
-        }
-        for (auto q : mp) {
-            if (q.first != p[i]) {
-                mp[q.first]++;
-            }
-        }
-    }
-
-    cout << "Process ";
-    for (i = 0; i < m; i++) {
-        cout << p[i] << " ";
-    }
-    cout << '\n';
-
-    for (i = 0; i < n; i++) {
-        cout << "Frame " << i << " ";
-        for (j = 0; j < m; j++) {
-            if (a[i][j] == -1)
-                cout << "E ";
+ 
+        // mismatch after j matches
+        else if (i < N && pat[j] != txt[i]) {
+            // Do not match lps[0..lps[j-1]] characters,
+            // they will match anyway
+            if (j != 0)
+                j = lps[j - 1];
             else
-                cout << a[i][j] << " ";
+                i = i + 1;
         }
-        cout << '\n';
     }
-
-    for (i = 0; i < m; i++) {
-        if (hi[i] == 0)
-            cout << " ";
-        else
-            cout << hi[i] << " ";
+}
+ 
+// Fills lps[] for given pattern pat[0..M-1]
+void computeLPSArray(char* pat, int M, int* lps)
+{
+    // length of the previous longest prefix suffix
+    int len = 0;
+ 
+    lps[0] = 0; // lps[0] is always 0
+ 
+    // the loop calculates lps[i] for i = 1 to M-1
+    int i = 1;
+    while (i < M) {
+        if (pat[i] == pat[len]) {
+            len++;
+            lps[i] = len;
+            i++;
+        }
+        else // (pat[i] != pat[len])
+        {
+            // This is tricky. Consider the example.
+            // AAACAAAA and i = 7. The idea is similar
+            // to search step.
+            if (len != 0) {
+                len = lps[len - 1];
+ 
+                // Also, note that we do not increment
+                // i here
+            }
+            else // if (len == 0)
+            {
+                lps[i] = 0;
+                i++;
+            }
+        }
     }
-    cout << "\n";
-    cout << "Hit " << hit << '\n' << "Page Fault " << m - hit << '\n';
-
+}
+ 
+// Driver code
+int main()
+{
+    char txt[] = "1100011010001010";
+    char pat[] = "0010";
+    KMPSearch(pat, txt);
     return 0;
 }

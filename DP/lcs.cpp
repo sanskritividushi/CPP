@@ -1,32 +1,33 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-int lcs(string X, string Y, int m, int n){
- 
-    int L[m + 1][n + 1];
- 
-    for (int i = 0; i <= m; i++) {
-        for (int j = 0; j <= n; j++) {
-            if (i == 0 || j == 0)
-                L[i][j] = 0;
- 
-            else if (X[i - 1] == Y[j - 1])
-                L[i][j] = L[i - 1][j - 1] + 1;
- 
-            else
-                L[i][j] = max(L[i - 1][j], L[i][j - 1]);
+int maximizeSum(vector<int>& nums, int P) {
+    int n = nums.size();
+    // Initialize a 2D DP array
+    vector<vector<int>> dp(n + 1, vector<int>(P + 1, 0));
+    
+    // Fill the DP table
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= P; ++j) {
+            if (j <= i) {
+                dp[i][j] = max(dp[i-1][j-1] + nums[i-1], dp[i-1][j-1] + nums[n-1-(i-1)]);
+            }
         }
     }
-    return L[m][n];
+    
+    // Maximum sum with exactly P elements picked
+    return dp[n][P];
 }
 
-int main()
-{
-    string S1 = "AGGTAB";
-    string S2 = "GXTXAYB";
-    int m = S1.size();
-    int n = S2.size();
-    // Function call
-    cout << "Length of LCS is " << lcs(S1, S2, m, n);
+int main() {
+    vector<int> nums = {7, 3, 100, 1, 4, 9};
+    int P = 3;
+    
+    int maxSum = maximizeSum(nums, P);
+    
+    cout << "Maximum sum achievable by picking exactly " << P << " elements: " << maxSum << endl;
+    
     return 0;
 }

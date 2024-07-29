@@ -12,7 +12,7 @@ int noofstairs(int n){
 }
 
 int main(){
-    int n = 5;
+    int n = 4;
     cout << noofstairs(n) << endl;
     return 0;
 }

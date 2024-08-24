@@ -6,7 +6,6 @@ public:
     int data;
     node* left;
     node* right;
-
     node(int d){
         data=d;
         left=NULL;
@@ -16,7 +15,6 @@ public:
 node* build_tree(){
     int d;
     cin >> d;
-
     if(d==-1){
         return NULL;
     }

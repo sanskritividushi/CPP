@@ -2,7 +2,6 @@
 #include <vector>
 
 using namespace std;
-
 // Node structure for the binary tree
 struct Node {
     int data;

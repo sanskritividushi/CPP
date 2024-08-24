@@ -68,7 +68,6 @@ void print(node*head){
 int main(){
     node *head = NULL;
     node *tail = NULL;
-   
     inserthead(head, tail, 10);
     inserthead(head, tail, 20);
     inserthead(head, tail, 30);

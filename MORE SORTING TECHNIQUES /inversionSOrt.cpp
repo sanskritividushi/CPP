@@ -44,7 +44,7 @@ int invcount(int*a, int s, int e){
 
 }
 int main(){
-    int a[]= {1,5,2,6,3,0};
+    int a[]= {1,3,4,9,2,8,7};
     int n= sizeof(a)/sizeof(int);
-    cout<< invcount(a,0,n-1) << " ";i
+    cout<< invcount(a,0,n-1) << " ";
 }

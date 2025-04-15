@@ -30,7 +30,6 @@ class hero{
 };
 
 int main(){
-    
     hero h1;
     h1.health=70;
     h1.level='d';

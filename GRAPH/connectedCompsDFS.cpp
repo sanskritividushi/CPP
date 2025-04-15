@@ -25,12 +25,12 @@ class graph{
     }
     void dfs(T src){
         map<T, bool> visited;
-        //make all noeds as not viisted int he starting 
+        //make all noeds as not viisted in the starting 
         for(auto p:l){
             T node = p.first;
             visited[node] = false;
         }
-        int count = 0;
+        int count = 1;
         for (auto p : l)
         {
             T node = p.first;

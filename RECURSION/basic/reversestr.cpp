@@ -5,8 +5,8 @@ string reverseStr(string s, int n){
     if(n == 0){
         return "";
     }
-    char smallans = s[n - 1];
-    return smallans+reverseStr(s, n - 1);
+    // char smallans = s[n - 1];
+    return s[n-1]+reverseStr(s, n - 1);
 }
 int main(){
     string s = "hello";

@@ -18,7 +18,6 @@ class hero{
         //for deep copy we name another copy constr with a different array
         char *ch= new char [strlen(temp.name)+1];
         this->name= ch;
-
         strcpy(ch, temp.name);
         this->health=temp.health;
     }
@@ -26,7 +25,7 @@ class hero{
         cout << this->health << endl;
         cout << this-> level <<endl;
         cout << this-> name <<endl;
-        cout << endl;
+        // cout << endl;
     }
     void setName(char name[]){
         strcpy(this->name,name);  //strcpy used to copy one string into another 
